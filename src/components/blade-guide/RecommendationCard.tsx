@@ -15,16 +15,6 @@ export function RecommendationCard({ unit }: RecommendationCardProps) {
   const defaultImageUrl = `https://picsum.photos/seed/${unit.slug}/400/200`;
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CardHeader className="p-0">
-        <Image
-          src={unit.imageUrl || defaultImageUrl}
-          alt={unit.name}
-          width={400}
-          height={200}
-          className="w-full h-48 object-cover"
-          data-ai-hint="medieval battle"
-        />
-      </CardHeader>
       <CardContent className="p-4">
         <CardTitle className="text-xl font-semibold mb-1">{unit.name}</CardTitle>
         <CardDescription className="text-sm text-muted-foreground mb-1">{unit.type}</CardDescription>

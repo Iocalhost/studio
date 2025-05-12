@@ -3,7 +3,7 @@ import { getUnitBySlug, MOCK_UNITS } from '@/lib/game-data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { Separator} from '@/components/ui/separator';
 import { CheckCircle, XCircle, ShieldQuestion } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ export default function UnitPage({ params }: UnitPageParams) {
         </Link>
       </Button>
 
-      <Card className="overflow-hidden shadow-lg">
+      <Card className="shadow-lg">
         <div className="p-6 pb-4">
           <h1 className="text-4xl font-bold">{unit.name}</h1>
           <div className="flex gap-2 mt-4">

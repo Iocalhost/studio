@@ -1,8 +1,7 @@
 // src/app/(main)/page.tsx
 import { redirect } from 'next/navigation';
 
-// For now, redirecting to the core feature: recommendations.
-export default function MainPage() {
+export default function MainPage({}) {
   redirect('/recommendations');
   // You could have a dashboard overview here if not redirecting
   // return (

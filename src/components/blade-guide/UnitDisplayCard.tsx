@@ -15,17 +15,10 @@ interface UnitDisplayCardProps {
 export function UnitDisplayCard({ unit }: UnitDisplayCardProps) {
   const defaultImageUrl = `https://picsum.photos/seed/${unit.slug}/300/180`;
   return (
-    <Card className="group flex flex-col overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out h-full">
-      <CardHeader className="p-0 relative">
-        <Image
-          src={unit.imageUrl || defaultImageUrl}
-          alt={unit.name}
-          width={300}
-          height={180}
-          className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
-          data-ai-hint="medieval unit"
-        />
-        <div className="absolute top-2 right-2">
+    <Card className="group flex flex-col rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out h-full">
+      <CardHeader className="relative p-4 pb-0">
+        {/* Removed Image and its container */}
+        <div className="absolute top-4 right-4">
            <Badge variant="default" className="bg-accent text-accent-foreground">{unit.era}</Badge>
         </div>
       </CardHeader>
