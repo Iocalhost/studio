@@ -21,10 +21,11 @@ export function AiRecommendations({ playerLevel }: AiRecommendationsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isMounted, setIsMounted] = useState(false); // State to track client mount
 
   const [displayUnits, setDisplayUnits] = useState<DisplayRecommendationUnit[]>([]);
 
-  // Inject animation styles only on the client-side
+  // Inject animation styles and set mounted state only on the client-side
   useEffect(() => {
     const styleId = 'fade-in-animation-style';
     if (!document.getElementById(styleId)) {
@@ -41,6 +42,7 @@ export function AiRecommendations({ playerLevel }: AiRecommendationsProps) {
       `;
       document.head.appendChild(style);
     }
+    setIsMounted(true); // Set mounted state to true after initial client render
   }, []); // Empty dependency array ensures this runs only once on mount
 
   const fetchRecommendations = async () => {
@@ -86,11 +88,13 @@ export function AiRecommendations({ playerLevel }: AiRecommendationsProps) {
     }
   };
 
+  // Fetch recommendations when playerLevel changes (but only after mounting)
   useEffect(() => {
-    // Automatically fetch recommendations when playerLevel changes or on initial mount
-    fetchRecommendations();
+    if (isMounted) {
+      fetchRecommendations();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playerLevel]);
+  }, [playerLevel, isMounted]);
 
   return (
     <Card className="w-full shadow-xl">
@@ -99,13 +103,17 @@ export function AiRecommendations({ playerLevel }: AiRecommendationsProps) {
           <Wand2 className="mr-2 h-7 w-7 text-accent" />
           AI Training Recommendations
         </CardTitle>
+        {/* Conditionally render the description content based on mount state */}
         <CardDescription>
-          Personalized unit and tactic suggestions based on your level: {playerLevel}.
+          {isMounted
+            ? `Personalized unit and tactic suggestions based on your level: ${playerLevel}.`
+            : 'Loading level specific recommendations...'}
+          <br /> {/* Maintain structure */}
           Click "Get Fresh Advice" to re-generate.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <Button onClick={fetchRecommendations} disabled={isLoading || isPending} className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground">
+        <Button onClick={fetchRecommendations} disabled={!isMounted || isLoading || isPending} className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground">
           {(isLoading || isPending) ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
           Get Fresh Advice
         </Button>
@@ -126,7 +134,8 @@ export function AiRecommendations({ playerLevel }: AiRecommendationsProps) {
           </Alert>
         )}
 
-        {recommendations && !isLoading && !isPending && (
+        {/* Only show recommendations if mounted and not loading */}
+        {isMounted && recommendations && !isLoading && !isPending && (
           <div className="space-y-6 mt-4 animate-fadeIn">
             <div>
               <h3 className="text-xl font-semibold mb-3 flex items-center">
