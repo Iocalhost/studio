@@ -1,6 +1,5 @@
 // src/app/(main)/units/[unitSlug]/page.tsx
 import { getUnitBySlug, MOCK_UNITS } from '@/lib/game-data';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -29,8 +28,7 @@ export default function UnitPage({ params }: UnitPageParams) {
   if (!unit) {
     notFound();
   }
-  
-  const defaultImageUrl = `https://picsum.photos/seed/${unit.slug}/800/400`;
+
 
   return (
     <div className="space-y-6">
@@ -42,27 +40,13 @@ export default function UnitPage({ params }: UnitPageParams) {
       </Button>
 
       <Card className="overflow-hidden shadow-lg">
-        <CardHeader className="relative p-0">
-          <Image
-            src={unit.imageUrl || defaultImageUrl}
-            alt={unit.name}
-            width={800}
-            height={400}
-            className="w-full h-64 md:h-96 object-cover"
-            priority // Prioritize loading image for LCP
-            data-ai-hint="battle scene unit"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-          <div className="absolute bottom-0 left-0 p-6">
-            <h1 className="text-4xl font-bold text-white shadow-text">{unit.name}</h1>
-            <div className="flex gap-2 mt-2">
-              <Badge variant="secondary" className="text-sm">{unit.type}</Badge>
-              <Badge variant="secondary" className="text-sm">{unit.era} Era</Badge>
-              <Badge variant="destructive" className="text-sm">Unlock Lvl: {unit.unlockLevel}</Badge>
-            </div>
+        <div className="p-6 pb-4">
+          <h1 className="text-4xl font-bold">{unit.name}</h1>
+          <div className="flex gap-2 mt-4">
+            <Badge className="text-sm">{unit.type}</Badge>
+            <Badge className="text-sm">{unit.era} Era</Badge>
+            <Badge variant="destructive" className="text-sm">Unlock Level: {unit.unlockLevel}</Badge>
           </div>
-        </CardHeader>
-        <CardContent className="p-6 space-y-6">
           <div>
             <h2 className="text-2xl font-semibold mb-2">Unit Overview</h2>
             <CardDescription className="text-lg leading-relaxed text-foreground/80">
